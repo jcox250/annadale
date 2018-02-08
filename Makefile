@@ -1,9 +1,9 @@
 build: 
-	docker build -t dale .
+	docker build -t tech-test-jc .
 
 run:
-	docker build -t dale .
-	docker run -it dale
+	docker build -t tech-test-jc .
+	docker run -it -p 5000:5000 tech-test-jc
 
 test:
 	go test -cover
