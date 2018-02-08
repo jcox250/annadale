@@ -41,14 +41,19 @@ func (p *PersonRepo) GetPeople() ([]domain.Person, error) {
 	var person domain.Person
 	var people []domain.Person
 
-	row, err := p.dbHandler.Query("call spPersonAllPeople")
+	row, err := p.dbHandler.Query("call spPersonGetAll()")
 	if err != nil {
 		return nil, err
 	}
 
 	for row.Next() {
 		err := row.Scan(
+			&person.ID,
 			&person.Name,
+			&person.Age,
+			&person.Email,
+			&person.Balance,
+			&person.Address,
 		)
 		if err != nil {
 			return nil, err

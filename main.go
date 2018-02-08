@@ -9,7 +9,7 @@ import (
 )
 
 const dbType = "mysql"
-const connStr = "root:root@(localhost:3306)/flexbdna"
+const connStr = "root:root@(localhost:3306)/techtest"
 
 func main() {
 	// Enable line numbers for logging

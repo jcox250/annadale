@@ -7,5 +7,10 @@ type PersonRepository interface {
 
 // Person will do y
 type Person struct {
-	Name string `json:"name,omitempty"`
+	ID      int    `json:"id,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Age     int    `json:"age,omitempty"`
+	Email   string `json:"email,omitempty"`
+	Balance int    `json:"balance,omitempty"`
+	Address string `json:"address,omitempty"`
 }
