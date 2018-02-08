@@ -9,7 +9,7 @@ import (
 
 // PersonInteractor does y
 type PersonInteractor interface {
-	People([]domain.Person, error)
+	People() ([]domain.Person, error)
 }
 
 // PersonServiceHandler foo
@@ -19,17 +19,23 @@ type PersonServiceHandler struct {
 
 // ShowPeople will do y
 func (p PersonServiceHandler) ShowPeople(w http.ResponseWriter, r *http.Request) {
-	people := []domain.Person{
-		domain.Person{
-			Name: "James",
-		},
-		domain.Person{
-			Name: "Alan",
-		},
-		domain.Person{
-			Name: "Nora",
-		},
+
+	people, err := p.PersonInteractor.People()
+	if err != nil {
+		httputil.InternalServerError(w, err)
+		return
 	}
+	// people := []domain.Person{
+	// 	domain.Person{
+	// 		Name: "James",
+	// 	},
+	// 	domain.Person{
+	// 		Name: "Alan",
+	// 	},
+	// 	domain.Person{
+	// 		Name: "Nora",
+	// 	},
+	// }
 
 	b, err := json.Marshal(people)
 	if err != nil {
