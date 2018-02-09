@@ -9,6 +9,7 @@ import (
 // DBHandler foo
 type DBHandler interface {
 	Query(string) (*sql.Rows, error)
+	Execute(string, ...interface{}) (int64, error)
 }
 
 // Row does x
@@ -61,4 +62,16 @@ func (p *PersonRepo) GetPeople() ([]domain.Person, error) {
 		people = append(people, person)
 	}
 	return people, nil
+}
+
+// AddPerson foo
+func (p *PersonRepo) AddPerson(person domain.Person) (int64, error) {
+	return p.dbHandler.Execute("call spPersonAddPerson(?, ?, ?, ?, ?, ?)",
+		person.ID,
+		person.Name,
+		person.Age,
+		person.Email,
+		person.Balance,
+		person.Address,
+	)
 }

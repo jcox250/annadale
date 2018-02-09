@@ -32,3 +32,13 @@ func (s *SQLHandler) Query(stmt string) (*sql.Rows, error) {
 	}
 	return rows, nil
 }
+
+// Execute will execute a sql statement and return the number of rows that have been
+// affected
+func (s *SQLHandler) Execute(stmt string, args ...interface{}) (int64, error) {
+	res, err := s.Conn.Exec(stmt, args...)
+	if err != nil {
+		return 0, fmt.Errorf("could not execute %s: %s", stmt, err)
+	}
+	return res.RowsAffected()
+}

@@ -19,15 +19,15 @@ func main() {
 	handlers := make(map[string]interfaces.DBHandler)
 	handlers["DBPersonRepo"] = dbHandler
 
-	pi := usecases.PersonInteractor{}
-	pi.PersonRepository = interfaces.NewPersonRepo(handlers)
+	personInteractor := usecases.PersonInteractor{}
+	personInteractor.PersonRepository = interfaces.NewPersonRepo(handlers)
 
-	psh := interfaces.PersonServiceHandler{}
-	psh.PersonInteractor = pi
+	personServiceHandler := interfaces.PersonServiceHandler{}
+	personServiceHandler.PersonInteractor = personInteractor
 
 	mux := http.NewServeMux()
 	http.Handle("/", mux)
-	mux.HandleFunc("/people", psh.ShowPeople)
+	mux.Handle("/people", personServiceHandler)
 
 	srv := &http.Server{
 		Addr:    ":5000",
