@@ -6,9 +6,13 @@ services:
       context: ./data/mysql/
       dockerfile: Dockerfile
     volumes:
-      - "./data/mysql:/var/lib/mysql/techtest"
+      - "./data/mysql:/docker-entrypoint-initdb.d"
     ports: 
       - "3306:3006"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: techtest
+      MYSQL_USER: root
 
   app:
     build:
