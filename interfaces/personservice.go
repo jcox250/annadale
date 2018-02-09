@@ -7,13 +7,11 @@ import (
 	"tech-test-jc/util/httputil"
 )
 
-// PersonInteractor does y
 type PersonInteractor interface {
 	People() ([]domain.Person, error)
 	AddPerson(domain.Person) (int64, error)
 }
 
-// PersonServiceHandler foo
 type PersonServiceHandler struct {
 	PersonInteractor PersonInteractor
 }
@@ -32,7 +30,6 @@ func (p PersonServiceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-// ShowPeople will do y
 func (p PersonServiceHandler) ShowPeople(w http.ResponseWriter, r *http.Request) {
 	people, err := p.PersonInteractor.People()
 	if err != nil {
@@ -49,7 +46,6 @@ func (p PersonServiceHandler) ShowPeople(w http.ResponseWriter, r *http.Request)
 	httputil.WriteResponse(w, b)
 }
 
-// AddPerson does y
 func (p PersonServiceHandler) AddPerson(w http.ResponseWriter, r *http.Request) {
 	var person domain.Person
 	err := json.NewDecoder(r.Body).Decode(&person)

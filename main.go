@@ -3,19 +3,21 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"tech-test-jc/infrastructure"
 	"tech-test-jc/interfaces"
 	"tech-test-jc/usecases"
 )
 
-const dbType = "mysql"
-const connStr = "root:root@(localhost:3306)/techtest"
+var DB_TYPE = os.Getenv("DB_TYPE")
+var DB_URL = os.Getenv("DATABASE_URL")
+var PORT = os.Getenv("PORT")
 
 func main() {
 	// Enable line numbers for logging
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	dbHandler := infrastructure.NewSQLHandler(dbType, connStr)
+	dbHandler := infrastructure.NewSQLHandler(DB_TYPE, DB_URL)
 	handlers := make(map[string]interfaces.DBHandler)
 	handlers["DBPersonRepo"] = dbHandler
 
@@ -30,7 +32,7 @@ func main() {
 	mux.Handle("/people", personServiceHandler)
 
 	srv := &http.Server{
-		Addr:    ":5000",
+		Addr:    PORT,
 		Handler: mux,
 	}
 

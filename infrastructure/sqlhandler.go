@@ -8,12 +8,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// SQLHandler foo
 type SQLHandler struct {
 	Conn *sql.DB
 }
 
-// NewSQLHandler foo
 func NewSQLHandler(dbtype, connStr string) *SQLHandler {
 	conn, err := sql.Open(dbtype, connStr)
 	if err != nil {
@@ -24,7 +22,6 @@ func NewSQLHandler(dbtype, connStr string) *SQLHandler {
 	return sh
 }
 
-// Query executes a sql statement
 func (s *SQLHandler) Query(stmt string) (*sql.Rows, error) {
 	rows, err := s.Conn.Query(stmt)
 	if err != nil {
@@ -33,8 +30,6 @@ func (s *SQLHandler) Query(stmt string) (*sql.Rows, error) {
 	return rows, nil
 }
 
-// Execute will execute a sql statement and return the number of rows that have been
-// affected
 func (s *SQLHandler) Execute(stmt string, args ...interface{}) (int64, error) {
 	res, err := s.Conn.Exec(stmt, args...)
 	if err != nil {

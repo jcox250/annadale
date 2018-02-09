@@ -1,12 +1,10 @@
 package domain
 
-// PersonRepository will do y
 type PersonRepository interface {
 	GetPeople() ([]Person, error)
 	AddPerson(Person) (int64, error)
 }
 
-// Person will do y
 type Person struct {
 	ID      int    `json:"id,omitempty"`
 	Name    string `json:"name,omitempty"`
