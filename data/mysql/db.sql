@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: localhost (MySQL 5.7.19)
-# Database: flexbdna
-# Generation Time: 2017-12-19 11:05:10 +0000
+# Host: localhost (MySQL 5.7.21)
+# Database: techtest
+# Generation Time: 2018-02-09 16:04:43 +0000
 # ************************************************************
 
 
@@ -42,7 +42,8 @@ INSERT INTO `person` (`person_id`, `person_name`, `person_age`, `person_email`, 
 VALUES
 	(1,'James',23,'jamescox250@gmailc.om',2,'10 Belfast Road'),
 	(2,'Andrew',24,'andrew@gmail.com',5,'5 Larne Road'),
-	(3,'Alan',24,'alan@gmail.com',8,'8 Balamoney Road');
+	(3,'Alan',24,'alan@gmail.com',8,'8 Balamoney Road'),
+	(4,'Peter',24,'Peter@gmail.com',8,'8 Blue Road');
 
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -50,10 +51,37 @@ UNLOCK TABLES;
 
 
 --
--- Dumping routines (PROCEDURE) for database 'flexbdna'
+-- Dumping routines (PROCEDURE) for database 'techtest'
 --
 DELIMITER ;;
 
+# Dump of PROCEDURE spPersonAddPerson
+# ------------------------------------------------------------
+
+/*!50003 DROP PROCEDURE IF EXISTS `spPersonAddPerson` */;;
+/*!50003 SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"*/;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPersonAddPerson`(id int, pname varchar(50), age int, email varchar(250), balance int, address varchar(50))
+BEGIN
+   
+	insert into person (
+		person_id,
+		person_name,
+		person_age,
+		person_email,
+		person_balance,
+		person_address
+	) value (
+		id,
+		pname,
+		age,
+		email,
+		balance,
+		address
+	);
+ 	
+ END */;;
+
+/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;;
 # Dump of PROCEDURE spPersonGetAll
 # ------------------------------------------------------------
 
