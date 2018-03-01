@@ -23,7 +23,7 @@ func main() {
 	sqlHandler := infrastructure.NewSQLHandler(DB_TYPE, DB_URL)
 	postRepo := repository.NewPostRepo(sqlHandler)
 	postInteractor := usecases.NewPostInteractor(postRepo)
-	postService := service.NewPostAdapter(postInteractor)
+	postService := service.NewPostService(postInteractor)
 
 	adapters := map[string]http.Handler{
 		infrastructure.PostService: postService,
