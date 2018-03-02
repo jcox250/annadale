@@ -39,11 +39,12 @@ func (p *PostService) ShowPost(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(id)
 	// p.Interactor.GetPost(id)
 
-	template, err := generateTemplate(headerTmpl, postTmpl)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	// template, err := generateTemplate(headerTmpl, postTmpl)
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	return
+	// }
+
 	post := p.Interactor.GetPost(id)
-	template.Execute(w, post)
+	templates[postPage].ExecuteTemplate(w, "post", post)
 }

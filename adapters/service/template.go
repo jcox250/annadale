@@ -2,18 +2,30 @@ package service
 
 import (
 	"fmt"
-	"text/template"
+	"html/template"
 )
 
 const (
-	headerTmpl = "infrastructure/view/post.html"
+	headerTmpl = "infrastructure/view/header.html"
+	footerTmpl = "infrastructure/view/footer.html"
 	postTmpl   = "infrastructure/view/post.html"
 )
 
-func generateTemplate(tmpl ...string) (*template.Template, error) {
-	t, err := template.ParseFiles(tmpl...)
+const (
+	postPage = iota
+)
+
+var templates = map[int]*template.Template{
+	postPage: template.Must(generateTemplate(postTmpl)),
+}
+
+func generateTemplate(tmpls ...string) (*template.Template, error) {
+	// Always include header and footer templates
+	tmpls = append(tmpls, headerTmpl)
+	tmpls = append(tmpls, footerTmpl)
+	t, err := template.ParseFiles(tmpls...)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't parse %s template: %s", tmpl, err)
+		return nil, fmt.Errorf("couldn't parse %s template: %s", tmpls, err)
 	}
 	return t, nil
 }
