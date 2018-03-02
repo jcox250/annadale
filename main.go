@@ -25,7 +25,8 @@ func main() {
 	postInteractor := usecases.NewPostInteractor(postRepo)
 	postService := service.NewPostService(postInteractor)
 
-	homeService := service.NewHomeService(nil)
+	homeInteractor := usecases.NewHomeInteractor(nil)
+	homeService := service.NewHomeService(homeInteractor)
 
 	adapters := map[string]http.Handler{
 		infrastructure.PostService: postService,
