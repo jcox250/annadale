@@ -6,6 +6,7 @@ import (
 
 const (
 	PostService = "PostService"
+	HomeService = "HomeService"
 )
 
 type HTTPServer struct {
@@ -25,6 +26,9 @@ func NewHTTPServer(port string, adapters map[string]http.Handler) *HTTPServer {
 }
 
 func (h *HTTPServer) setupRoutes() {
+	h.mux.Handle("/", h.adapters[HomeService])
+
+	// /page/{id}
 	h.mux.Handle("/page/", h.adapters[PostService])
 }
 
