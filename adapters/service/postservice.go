@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -35,16 +34,7 @@ func (p *PostService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (p *PostService) ShowPost(w http.ResponseWriter, r *http.Request) {
-	id := strings.Split(r.URL.Path, "/")[0]
-	fmt.Println(id)
-	// p.Interactor.GetPost(id)
-
-	// template, err := generateTemplate(headerTmpl, postTmpl)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	return
-	// }
-
+	id := strings.Split(r.URL.Path, "/")[2]
 	post := p.Interactor.GetPost(id)
-	templates[postPage].ExecuteTemplate(w, "post", post)
+	templates[postPage].ExecuteTemplate(w, "base", post)
 }
