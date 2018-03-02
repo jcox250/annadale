@@ -6,12 +6,12 @@ import (
 )
 
 const (
-	postTemplate = "post.html"
+	headerTmpl = "infrastructure/view/post.html"
+	postTmpl   = "infrastructure/view/post.html"
 )
 
-func generateTemplate(tmpl string) (*template.Template, error) {
-	file := "infrastructure/view/" + tmpl
-	t, err := template.ParseFiles(file)
+func generateTemplate(tmpl ...string) (*template.Template, error) {
+	t, err := template.ParseFiles(tmpl...)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't parse %s template: %s", tmpl, err)
 	}

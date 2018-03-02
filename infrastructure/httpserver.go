@@ -25,7 +25,7 @@ func NewHTTPServer(port string, adapters map[string]http.Handler) *HTTPServer {
 }
 
 func (h *HTTPServer) setupRoutes() {
-	h.mux.Handle("/page", h.adapters[PostService])
+	h.mux.Handle("/page/", h.adapters[PostService])
 }
 
 func (h *HTTPServer) Serve() error {
