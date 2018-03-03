@@ -11,7 +11,7 @@ const (
 	homeTmpl     = "infrastructure/view/home.html"
 	adminTmpl    = "infrastructure/view/admin.html"
 	loginTmpl    = "infrastructure/view/login.html"
-	addPostTmpl  = "infrastructure/view/add-post.html"
+	editPostTmpl = "infrastructure/view/edit-post.html"
 	notFoundTmpl = "infrastructure/view/not-found.html"
 )
 
@@ -20,7 +20,7 @@ const (
 	homePage
 	adminPage
 	loginPage
-	addPostPage
+	editPostPage
 	notFoundPage
 )
 
@@ -29,7 +29,7 @@ var templates = map[int]*template.Template{
 	homePage:     template.Must(generateTemplate(baseTmpl, homeTmpl)),
 	adminPage:    template.Must(generateTemplate(baseTmpl, adminTmpl)),
 	loginPage:    template.Must(generateTemplate(baseTmpl, loginTmpl)),
-	addPostPage:  template.Must(generateTemplate(baseTmpl, addPostTmpl)),
+	editPostPage: template.Must(generateTemplate(baseTmpl, editPostTmpl)),
 	notFoundPage: template.Must(generateTemplate(baseTmpl, notFoundTmpl)),
 }
 

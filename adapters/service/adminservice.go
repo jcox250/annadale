@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -47,11 +46,9 @@ func (a *AdminService) handleRouting(w http.ResponseWriter, r *http.Request) {
 
 	switch route {
 	case "":
-		fmt.Println("empty route")
 		a.showAdminPage(w, r)
 		return
-	case "addpost":
-		fmt.Println("addpost route")
+	case "editpost":
 		a.showAddPostPage(w, r)
 		return
 	default:
@@ -82,7 +79,14 @@ func (a *AdminService) showAdminPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AdminService) showAddPostPage(w http.ResponseWriter, r *http.Request) {
-	templates[addPostPage].ExecuteTemplate(w, "base", nil)
+	path := strings.Split(r.URL.Path, "/")
+	data := domain.Post{}
+
+	if len(path) == 4 {
+		id := path[3]
+		data = a.Interactor.GetPost(id)
+	}
+	templates[editPostPage].ExecuteTemplate(w, "base", data)
 }
 
 func (a *AdminService) addPost(w http.ResponseWriter, r *http.Request) {

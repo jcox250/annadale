@@ -38,7 +38,7 @@ func (h *HTTPServer) setupRoutes() {
 
 	// /page/{id}
 	h.mux.Handle("/page/", h.adapters[PostService])
-	// /admin/addpost
+	// /admin/{editpost}/{id}
 	h.mux.Handle("/admin/", middleware.Authenticate(h.adapters[AdminService]))
 	h.mux.Handle("/login/", h.adapters[LoginService])
 }
