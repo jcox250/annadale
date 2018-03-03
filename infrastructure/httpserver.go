@@ -3,6 +3,8 @@ package infrastructure
 import (
 	"net/http"
 
+	"github.com/jcox250/annadale/infrastructure/middleware"
+
 	"github.com/gorilla/context"
 )
 
@@ -34,7 +36,7 @@ func (h *HTTPServer) setupRoutes() {
 
 	// /page/{id}
 	h.mux.Handle("/page/", h.adapters[PostService])
-	h.mux.Handle("/admin/", h.adapters[AdminService])
+	h.mux.Handle("/admin/", middleware.Authenticate(h.adapters[AdminService]))
 	h.mux.Handle("/login/", h.adapters[LoginService])
 }
 

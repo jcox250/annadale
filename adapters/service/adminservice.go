@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/jcox250/annadale/domain"
-	"github.com/jcox250/annadale/util/session"
 )
 
 type AdminInteractor interface {
@@ -28,30 +27,19 @@ func NewAdminService(interactor AdminInteractor) *AdminService {
 }
 
 func (a *AdminService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-	sessionExists, err := session.SessionExists(r, session.SessionName)
+	news, err := a.Interactor.GetNews()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		return
+	}
+	pages, err := a.Interactor.GetPages()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
-	if sessionExists {
-		news, err := a.Interactor.GetNews()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		pages, err := a.Interactor.GetPages()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-
-		data := AdminData{
-			News:  news,
-			Pages: pages,
-		}
-
-		templates[adminPage].ExecuteTemplate(w, "base", data)
-	} else {
-		http.Redirect(w, r, "/login/", http.StatusFound)
+	data := AdminData{
+		News:  news,
+		Pages: pages,
 	}
+
+	templates[adminPage].ExecuteTemplate(w, "base", data)
 }
