@@ -10,10 +10,10 @@ func NewPostRepo(dbHandler DBHandler) *PostRepo {
 	}
 }
 
-func (p *PostRepo) Get(id string) {
+func (p *PostRepo) GetPost(id string) {
 	p.dbHandler.Execute("call spPostGetPost(?)", id)
 }
 
-func (p *PostRepo) GetAll() {
+func (p *PostRepo) GetAllPosts() {
 	p.dbHandler.Query("call spPostGetAll()")
 }

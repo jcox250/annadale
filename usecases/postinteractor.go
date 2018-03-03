@@ -6,18 +6,23 @@ import (
 	"github.com/jcox250/annadale/domain"
 )
 
-type PostInteractor struct {
-	postRepo Repo
+type PostRepo interface {
+	GetPost(string)
+	GetAllPosts()
 }
 
-func NewPostInteractor(postRepo Repo) PostInteractor {
+type PostInteractor struct {
+	postRepo PostRepo
+}
+
+func NewPostInteractor(postRepo PostRepo) PostInteractor {
 	return PostInteractor{
 		postRepo: postRepo,
 	}
 }
 
 func (p PostInteractor) GetPost(id string) domain.Post {
-	p.postRepo.Get(id)
+	p.postRepo.GetPost(id)
 
 	foo := []domain.Post{
 		domain.Post{
@@ -52,5 +57,5 @@ func (p PostInteractor) GetPost(id string) domain.Post {
 }
 
 func (p PostInteractor) GetAllPosts() {
-	p.postRepo.GetAll()
+	p.postRepo.GetAllPosts()
 }

@@ -6,19 +6,22 @@ import (
 )
 
 const (
-	baseTmpl = "infrastructure/view/base.html"
-	postTmpl = "infrastructure/view/post.html"
-	homeTmpl = "infrastructure/view/home.html"
+	baseTmpl  = "infrastructure/view/base.html"
+	postTmpl  = "infrastructure/view/post.html"
+	homeTmpl  = "infrastructure/view/home.html"
+	adminTmpl = "infrastructure/view/admin.html"
 )
 
 const (
 	postPage = iota
 	homePage
+	adminPage
 )
 
 var templates = map[int]*template.Template{
-	postPage: template.Must(generateTemplate(baseTmpl, postTmpl)),
-	homePage: template.Must(generateTemplate(baseTmpl, homeTmpl)),
+	postPage:  template.Must(generateTemplate(baseTmpl, postTmpl)),
+	homePage:  template.Must(generateTemplate(baseTmpl, homeTmpl)),
+	adminPage: template.Must(generateTemplate(baseTmpl, adminTmpl)),
 }
 
 func generateTemplate(tmpls ...string) (*template.Template, error) {

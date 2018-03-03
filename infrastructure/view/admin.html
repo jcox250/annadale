@@ -1,0 +1,56 @@
+{{define "content"}}
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+            <div class="mdl-tabs__tab-bar">
+                <a href="#news-panel" class="mdl-tabs__tab is-active">News</a>
+                <a href="#pages-panel" class="mdl-tabs__tab">Pages</a>
+            </div>
+
+            <div class="mdl-tabs__panel is-active" id="news-panel">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Added By</th>
+                            <th>Added Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .News}}
+                        <tr>
+                            <td>{{ .Title }}</td>
+                            <td>{{ .Content }}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="mdl-tabs__panel" id="pages-panel">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Added By</th>
+                            <th>Added Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .Pages}}
+                        <tr>
+                            <td>{{ .Title }}</td>
+                            <td>{{ .Content }}</td>
+                            <td>{{ .AddedBy }}</td>
+                            <td>{{ .AddedDate }}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.mdl-grid -->
+{{end}}

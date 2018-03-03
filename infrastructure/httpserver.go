@@ -5,8 +5,9 @@ import (
 )
 
 const (
-	PostService = "PostService"
-	HomeService = "HomeService"
+	PostService  = "PostService"
+	HomeService  = "HomeService"
+	AdminService = "AdminService"
 )
 
 type HTTPServer struct {
@@ -30,6 +31,7 @@ func (h *HTTPServer) setupRoutes() {
 
 	// /page/{id}
 	h.mux.Handle("/page/", h.adapters[PostService])
+	h.mux.Handle("/admin/", h.adapters[AdminService])
 }
 
 func (h *HTTPServer) Serve() error {
