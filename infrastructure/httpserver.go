@@ -2,6 +2,8 @@ package infrastructure
 
 import (
 	"net/http"
+
+	"github.com/gorilla/context"
 )
 
 const (
@@ -37,5 +39,5 @@ func (h *HTTPServer) setupRoutes() {
 }
 
 func (h *HTTPServer) Serve() error {
-	return http.ListenAndServe(h.port, h.mux)
+	return http.ListenAndServe(h.port, context.ClearHandler(h.mux))
 }

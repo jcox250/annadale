@@ -3,9 +3,9 @@ package service
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/jcox250/annadale/domain"
+	"github.com/jcox250/annadale/util/session"
 )
 
 type LoginInteractor interface {
@@ -44,19 +44,23 @@ func (a *LoginService) handleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := domain.User{
-		Username: strings.Join(r.Form["username"], ""),
-		Password: strings.Join(r.Form["password"], ""),
+		Username: r.PostFormValue("username"),
+		Password: r.PostFormValue("password"),
 	}
 
 	valid, err := a.Interactor.VerifyLogin(user)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Println(valid)
 	if valid {
+		err := session.NewSession(w, r)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		http.Redirect(w, r, "/admin/", http.StatusFound)
-		// set session
-		// redirect to admin
 	}
 }
