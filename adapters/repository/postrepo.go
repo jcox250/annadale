@@ -43,3 +43,7 @@ func (p *PostRepo) AddPost(post domain.Post) (int64, error) {
 	)
 	return rowsAdded, err
 }
+
+func (p *PostRepo) UpdatePost(domain.Post) (bool, error) {
+	return false, nil
+}

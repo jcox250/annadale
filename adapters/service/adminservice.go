@@ -36,6 +36,9 @@ func (a *AdminService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		a.addPost(w, r)
 		return
+	case http.MethodPut:
+		a.updatePost(w, r)
+		return
 	default:
 		w.WriteHeader(http.StatusNotImplemented)
 	}
@@ -90,6 +93,7 @@ func (a *AdminService) showAddPostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AdminService) addPost(w http.ResponseWriter, r *http.Request) {
+	// Will get post from r.Form
 	post := domain.Post{
 		ID:          "3", //will be uuid
 		Title:       r.PostFormValue("title"),
@@ -109,5 +113,29 @@ func (a *AdminService) addPost(w http.ResponseWriter, r *http.Request) {
 
 	if rowsAdded > 0 {
 		w.WriteHeader(http.StatusOK)
+	}
+}
+
+func (a *AdminService) updatePost(w http.ResponseWriter, r *http.Request) {
+	// Will get post from r.Form
+	post := domain.Post{
+		ID:          "3", //will be uuid
+		Title:       r.PostFormValue("title"),
+		Content:     r.PostFormValue("content"),
+		AddedBy:     "1",
+		AddedDate:   time.Now(),
+		UpdatedBy:   "1",
+		UpdatedDate: time.Now(),
+		Archive:     false,
+	}
+
+	updated, err := a.Interactor.EditPost(post)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	if updated {
+		// Will update this to redirect to a 'successfuly updated page'
+		http.Redirect(w, r, "/admin/", http.StatusFound)
 	}
 }

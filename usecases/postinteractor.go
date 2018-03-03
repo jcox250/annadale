@@ -10,6 +10,7 @@ type PostRepo interface {
 	GetPost(string)
 	GetAllPosts()
 	AddPost(domain.Post) (int64, error)
+	UpdatePost(domain.Post) (bool, error)
 	GetNews() ([]domain.Post, error)
 	GetPages() ([]domain.Post, error)
 }
@@ -119,4 +120,8 @@ func (a PostInteractor) GetPages() ([]domain.Post, error) {
 
 func (p PostInteractor) AddPost(post domain.Post) (int64, error) {
 	return p.postRepo.AddPost(post)
+}
+
+func (p PostInteractor) EditPost(post domain.Post) (bool, error) {
+	return p.postRepo.UpdatePost(post)
 }
