@@ -7,6 +7,7 @@ import (
 
 	"github.com/jcox250/annadale/adapters/repository"
 	"github.com/jcox250/annadale/adapters/service"
+	"github.com/jcox250/annadale/infrastructure/middleware"
 	"github.com/jcox250/annadale/usecases"
 
 	"github.com/jcox250/annadale/infrastructure"
@@ -41,7 +42,9 @@ func main() {
 		infrastructure.LoginService: loginService,
 	}
 
-	server := infrastructure.NewHTTPServer(PORT, adapters)
+	logger := middleware.Logger{}
+
+	server := infrastructure.NewHTTPServer(PORT, adapters, logger)
 	if err := server.Serve(); err != nil {
 		log.Fatal(err)
 	}

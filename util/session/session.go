@@ -21,7 +21,7 @@ func newStore() *sessions.CookieStore {
 		log.Fatal("error generating random byte array: ", err)
 		return nil
 	}
-	store := sessions.NewCookieStore(token)
+	store := sessions.NewCookieStore([]byte("foo"))
 	return store
 }
 

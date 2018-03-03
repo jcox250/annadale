@@ -19,13 +19,15 @@ type HTTPServer struct {
 	mux      *http.ServeMux
 	port     string
 	adapters map[int]http.Handler
+	logger   middleware.LoggerMiddleware
 }
 
-func NewHTTPServer(port string, adapters map[int]http.Handler) *HTTPServer {
+func NewHTTPServer(port string, adapters map[int]http.Handler, logger middleware.LoggerMiddleware) *HTTPServer {
 	server := &HTTPServer{
 		mux:      http.NewServeMux(),
 		port:     port,
 		adapters: adapters,
+		logger:   logger,
 	}
 	server.setupRoutes()
 	return server
@@ -41,5 +43,5 @@ func (h *HTTPServer) setupRoutes() {
 }
 
 func (h *HTTPServer) Serve() error {
-	return http.ListenAndServe(h.port, context.ClearHandler(h.mux))
+	return http.ListenAndServe(h.port, h.logger.Log(context.ClearHandler(h.mux)))
 }

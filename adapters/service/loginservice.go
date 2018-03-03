@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/jcox250/annadale/domain"
@@ -23,10 +24,19 @@ func NewLoginService(interactor LoginInteractor) *LoginService {
 }
 
 func (a *LoginService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method)
 	switch r.Method {
 	case http.MethodGet:
-		templates[loginPage].ExecuteTemplate(w, "base", nil)
+		sessionExists, err := session.SessionExists(r, session.SessionName)
+		if err != nil {
+			log.Println(err)
+			w.WriteHeader(http.StatusNotImplemented)
+			return
+		}
+		if sessionExists {
+			http.Redirect(w, r, "/admin/", http.StatusFound)
+			return
+		}
+		a.showLoginPage(w, r)
 		return
 	case http.MethodPost:
 		a.handleLogin(w, r)
@@ -36,9 +46,14 @@ func (a *LoginService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (a *LoginService) showLoginPage(w http.ResponseWriter, r *http.Request) {
+	templates[loginPage].ExecuteTemplate(w, "base", nil)
+}
+
 func (a *LoginService) handleLogin(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -50,6 +65,7 @@ func (a *LoginService) handleLogin(w http.ResponseWriter, r *http.Request) {
 
 	valid, err := a.Interactor.VerifyLogin(user)
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -58,6 +74,7 @@ func (a *LoginService) handleLogin(w http.ResponseWriter, r *http.Request) {
 	if valid {
 		err := session.NewSession(w, r)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
