@@ -29,8 +29,7 @@ func main() {
 	homeInteractor := usecases.NewHomeInteractor(nil)
 	homeService := service.NewHomeService(homeInteractor)
 
-	adminInteractor := usecases.NewAdminInteractor(nil)
-	adminService := service.NewAdminService(adminInteractor)
+	adminService := service.NewAdminService(postInteractor)
 
 	loginInteractor := usecases.NewLoginInteractor(nil)
 	loginService := service.NewLoginService(loginInteractor)

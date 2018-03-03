@@ -10,6 +10,9 @@ import (
 type PostInteractor interface {
 	GetPost(id string) domain.Post
 	GetAllPosts()
+	AddPost(domain.Post) (int64, error)
+	GetNews() ([]domain.Post, error)
+	GetPages() ([]domain.Post, error)
 }
 
 type PostService struct {
