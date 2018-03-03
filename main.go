@@ -31,10 +31,14 @@ func main() {
 	adminInteractor := usecases.NewAdminInteractor(nil)
 	adminService := service.NewAdminService(adminInteractor)
 
-	adapters := map[string]http.Handler{
+	loginInteractor := usecases.NewLoginInteractor(nil)
+	loginService := service.NewLoginService(loginInteractor)
+
+	adapters := map[int]http.Handler{
 		infrastructure.PostService:  postService,
 		infrastructure.HomeService:  homeService,
 		infrastructure.AdminService: adminService,
+		infrastructure.LoginService: loginService,
 	}
 
 	server := infrastructure.NewHTTPServer(PORT, adapters)

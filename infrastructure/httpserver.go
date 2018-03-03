@@ -5,18 +5,19 @@ import (
 )
 
 const (
-	PostService  = "PostService"
-	HomeService  = "HomeService"
-	AdminService = "AdminService"
+	PostService = iota
+	HomeService
+	AdminService
+	LoginService
 )
 
 type HTTPServer struct {
 	mux      *http.ServeMux
 	port     string
-	adapters map[string]http.Handler
+	adapters map[int]http.Handler
 }
 
-func NewHTTPServer(port string, adapters map[string]http.Handler) *HTTPServer {
+func NewHTTPServer(port string, adapters map[int]http.Handler) *HTTPServer {
 	server := &HTTPServer{
 		mux:      http.NewServeMux(),
 		port:     port,
@@ -32,6 +33,7 @@ func (h *HTTPServer) setupRoutes() {
 	// /page/{id}
 	h.mux.Handle("/page/", h.adapters[PostService])
 	h.mux.Handle("/admin/", h.adapters[AdminService])
+	h.mux.Handle("/login/", h.adapters[LoginService])
 }
 
 func (h *HTTPServer) Serve() error {

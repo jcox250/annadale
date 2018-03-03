@@ -10,18 +10,21 @@ const (
 	postTmpl  = "infrastructure/view/post.html"
 	homeTmpl  = "infrastructure/view/home.html"
 	adminTmpl = "infrastructure/view/admin.html"
+	loginTmpl = "infrastructure/view/login.html"
 )
 
 const (
 	postPage = iota
 	homePage
 	adminPage
+	loginPage
 )
 
 var templates = map[int]*template.Template{
 	postPage:  template.Must(generateTemplate(baseTmpl, postTmpl)),
 	homePage:  template.Must(generateTemplate(baseTmpl, homeTmpl)),
 	adminPage: template.Must(generateTemplate(baseTmpl, adminTmpl)),
+	loginPage: template.Must(generateTemplate(baseTmpl, loginTmpl)),
 }
 
 func generateTemplate(tmpls ...string) (*template.Template, error) {

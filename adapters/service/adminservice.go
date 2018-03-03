@@ -45,5 +45,5 @@ func (a *AdminService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AdminService) HandleLogon(w http.ResponseWriter, r *http.Request) {
-
+	templates[loginPage].ExecuteTemplate(w, "base", nil)
 }
