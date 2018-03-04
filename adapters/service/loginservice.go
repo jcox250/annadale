@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -70,12 +69,12 @@ func (a *LoginService) handleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(valid)
 	if valid {
-		err := session.NewSession(w, r)
+		sess, err := session.NewSession(w, r)
+		sess.Values["user_id"] = "1" // Will get user id using username and password
+		err = sess.Save(r, w)
 		if err != nil {
-			log.Println(err)
-			w.WriteHeader(http.StatusInternalServerError)
+			log.Println("error saving session: ", err)
 			return
 		}
 		http.Redirect(w, r, "/admin/", http.StatusFound)

@@ -1,9 +1,10 @@
 package service
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/jcox250/annadale/domain"
 )
@@ -93,20 +94,9 @@ func (a *AdminService) showAddPostPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AdminService) addPost(w http.ResponseWriter, r *http.Request) {
-	// Will get post from r.Form
-	post := domain.Post{
-		ID:          "3", //will be uuid
-		Title:       r.PostFormValue("title"),
-		Content:     r.PostFormValue("content"),
-		AddedBy:     "1",
-		AddedDate:   time.Now(),
-		UpdatedBy:   "1",
-		UpdatedDate: time.Now(),
-		Archive:     false,
-	}
-
-	rowsAdded, err := a.Interactor.AddPost(post)
+	rowsAdded, err := a.Interactor.AddPost(r)
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -117,19 +107,10 @@ func (a *AdminService) addPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AdminService) updatePost(w http.ResponseWriter, r *http.Request) {
-	// Will get post from r.Form
-	post := domain.Post{
-		ID:          "3", //will be uuid
-		Title:       r.PostFormValue("title"),
-		Content:     r.PostFormValue("content"),
-		AddedBy:     "1",
-		AddedDate:   time.Now(),
-		UpdatedBy:   "1",
-		UpdatedDate: time.Now(),
-		Archive:     false,
-	}
+	id := r.URL.Query().Get("id")
+	fmt.Println(id)
 
-	updated, err := a.Interactor.EditPost(post)
+	updated, err := a.Interactor.EditPost(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}

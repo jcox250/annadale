@@ -10,8 +10,8 @@ import (
 type PostInteractor interface {
 	GetPost(id string) domain.Post
 	GetAllPosts()
-	AddPost(domain.Post) (int64, error)
-	EditPost(domain.Post) (bool, error)
+	AddPost(r *http.Request) (int64, error)
+	EditPost(r *http.Request) (bool, error)
 	GetNews() ([]domain.Post, error)
 	GetPages() ([]domain.Post, error)
 }

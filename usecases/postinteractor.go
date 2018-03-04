@@ -1,9 +1,13 @@
 package usecases
 
 import (
+	"log"
+	"net/http"
 	"time"
 
 	"github.com/jcox250/annadale/domain"
+	"github.com/jcox250/annadale/util/session"
+	uuid "github.com/satori/go.uuid"
 )
 
 type PostRepo interface {
@@ -118,10 +122,42 @@ func (a PostInteractor) GetPages() ([]domain.Post, error) {
 	return pages, nil
 }
 
-func (p PostInteractor) AddPost(post domain.Post) (int64, error) {
+func (p PostInteractor) AddPost(r *http.Request) (int64, error) {
+	id := uuid.NewV4().String()
+	userId, err := session.GetStrValue(r, "user_id")
+	if err != nil {
+		return 0, err
+	}
+
+	post := domain.Post{
+		ID:          id, //will be uuid
+		Title:       r.PostFormValue("title"),
+		Content:     r.PostFormValue("content"),
+		AddedBy:     userId, // Get id form session
+		AddedDate:   time.Now(),
+		UpdatedBy:   userId, // Get id from session
+		UpdatedDate: time.Now(),
+		Archive:     false,
+	}
+
 	return p.postRepo.AddPost(post)
 }
 
-func (p PostInteractor) EditPost(post domain.Post) (bool, error) {
+func (p PostInteractor) EditPost(r *http.Request) (bool, error) {
+	id := r.URL.Query().Get("id")
+	userId, err := session.GetStrValue(r, "user_id")
+	if err != nil {
+		log.Println(err)
+	}
+
+	post := domain.Post{
+		ID:          id,
+		Title:       r.PostFormValue("title"),
+		Content:     r.PostFormValue("content"),
+		UpdatedBy:   userId,
+		UpdatedDate: time.Now(),
+		Archive:     false, // will be value from form
+	}
+
 	return p.postRepo.UpdatePost(post)
 }

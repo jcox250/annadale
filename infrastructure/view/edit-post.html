@@ -1,6 +1,21 @@
 {{define "content"}}
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">foo</div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <form action="/admin/editpost/?id=foobar" method="POST">
+            <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" id="title" name="title">
+                <label class="mdl-textfield__label" for="username">Title...</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="password" id="content" name="content">
+                <label class="mdl-textfield__label" for="password">Content...</label>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield">
+                <input value="Submit" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" />
+            </div>
+        </form>
+    </div>
 </div>
 <!-- /.mdl-grid -->
 {{end}}
