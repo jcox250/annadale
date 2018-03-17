@@ -38,28 +38,17 @@
                     <div class="mdl-cell mdl-cell--4-col">
                         <!-- <a class="twitter-timeline" data-lang="en" data-height="300" data-theme="light" href="https://twitter.com/annadalehc?ref_src=twsrc%5Etfw">Tweets by annadalehc</a>
                         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-                        {{ .BaseData }}
                         <table class="mdl-data-table mdl-shadow--2dp">
                             <thead>
                                 <th>Latest Results</th>
                             </thead>
                             <tbody>
+                                {{ range .BaseData.LatestResults }}
                                 <tr>
-                                    <td>1s - No Match
+                                    <td>{{ . }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2s - No Match
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3s - No Match
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4s - No Match
-                                    </td>
-                                </tr>
+                                {{ end }}
                             </tbody>
                         </table>
                         <br>
@@ -68,22 +57,12 @@
                                 <th>Next Fixtures</th>
                             </thead>
                             <tbody>
+                                {{ range .BaseData.NextFixtures }}
                                 <tr>
-                                    <td>1s - No Match
+                                    <td>{{ . }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2s - No Match
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3s - No Match
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4s - No Match
-                                    </td>
-                                </tr>
+                                {{ end }}
                             </tbody>
                         </table>
 

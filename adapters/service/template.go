@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+
+	"github.com/jcox250/annadale/domain"
+	"github.com/jcox250/annadale/usecases"
 )
 
 const (
@@ -25,26 +28,29 @@ const (
 	notFoundPage
 )
 
-type Base struct {
-	BaseData interface{}
-	PageData interface{}
-}
-
 type BaseTemplate struct {
 	Template *template.Template
-	Data     Base
+	Data     domain.Base
 }
 
 func newBaseTemplate(tmpls ...string) BaseTemplate {
 	tmpls = append(tmpls, baseTmpl)
-	b := BaseTemplate{
+	return BaseTemplate{
 		Template: template.Must(generateTemplate(tmpls...)),
-		Data:     Base{BaseData: "hello world"},
 	}
-	return b
 }
 
 func (b BaseTemplate) ExecuteTemplate(wr io.Writer, name string, data interface{}) error {
+	var interactor usecases.BaseInteractor
+	var err error
+	b.Data.BaseData.LatestResults, err = interactor.GetLatestResults()
+	if err != nil {
+		return err
+	}
+	b.Data.BaseData.NextFixtures, err = interactor.GetFixtures()
+	if err != nil {
+		return err
+	}
 	b.Data.PageData = data
 	return b.Template.ExecuteTemplate(wr, name, b.Data)
 }
