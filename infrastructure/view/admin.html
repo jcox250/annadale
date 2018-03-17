@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{range .News}}
+                        {{range .PageData.News}}
                         <tr>
                             <td>{{ .Title }}</td>
                             <td>{{ .Content }}</td>
@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{range .Pages}}
+                        {{range .PageData.Pages}}
                         <tr>
                             <td>{{ .Title }}</td>
                             <td>{{ .Content }}</td>

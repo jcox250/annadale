@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/jcox250/annadale/domain"
+import (
+	"github.com/jcox250/annadale/domain"
+)
 
 type PostRepo struct {
 	dbHandler DBHandler
@@ -31,8 +33,9 @@ func (p *PostRepo) GetPages() ([]domain.Post, error) {
 }
 
 func (p *PostRepo) AddPost(post domain.Post) (int64, error) {
-	rowsAdded, err := p.dbHandler.Execute("call spPostAdd(?,?,?,?,?,?,?,?",
+	rowsAdded, err := p.dbHandler.Execute("call spPostAdd(?,?,?,?,?,?,?,?,?)",
 		post.ID,
+		post.Type,
 		post.Title,
 		post.Content,
 		post.AddedBy,

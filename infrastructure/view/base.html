@@ -36,7 +36,57 @@
                 <!-- Your content goes here -->
                 <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--4-col">
-                        <p>Twitter feed here</p>
+                        <!-- <a class="twitter-timeline" data-lang="en" data-height="300" data-theme="light" href="https://twitter.com/annadalehc?ref_src=twsrc%5Etfw">Tweets by annadalehc</a>
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
+                        {{ .BaseData }}
+                        <table class="mdl-data-table mdl-shadow--2dp">
+                            <thead>
+                                <th>Latest Results</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1s - No Match
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2s - No Match
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3s - No Match
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4s - No Match
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <table class="mdl-data-table mdl-shadow--2dp">
+                            <thead>
+                                <th>Next Fixtures</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1s - No Match
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2s - No Match
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3s - No Match
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4s - No Match
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
                         {{template "content" .}}

@@ -6,6 +6,7 @@ type PostRepo interface{}
 
 type Post struct {
 	ID          string    `json:"id,omitempty"`
+	Type        string    `json:"type,omitempty"`
 	Title       string    `json:"title,omitempty"`
 	Content     string    `json:"content,omitempty"`
 	AddedBy     string    `json:"added_by,omitempty"`

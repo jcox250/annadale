@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log"
 	"net/http"
 	"strings"
 
@@ -40,5 +41,8 @@ func (p *PostService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (p *PostService) ShowPost(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.URL.Path, "/")[2]
 	post := p.Interactor.GetPost(id)
-	templates[postPage].ExecuteTemplate(w, "base", post)
+	if err := templates[postPage].ExecuteTemplate(w, "base", post); err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/500", http.StatusInternalServerError)
+	}
 }

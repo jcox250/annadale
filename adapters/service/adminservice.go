@@ -57,7 +57,10 @@ func (a *AdminService) handleRouting(w http.ResponseWriter, r *http.Request) {
 		return
 	default:
 		w.WriteHeader(http.StatusNotFound)
-		templates[notFoundPage].ExecuteTemplate(w, "content", nil)
+		if err := templates[notFoundPage].ExecuteTemplate(w, "content", nil); err != nil {
+			http.Redirect(w, r, "/500", http.StatusInternalServerError)
+			return
+		}
 		return
 	}
 
@@ -79,7 +82,9 @@ func (a *AdminService) showAdminPage(w http.ResponseWriter, r *http.Request) {
 		News:  news,
 		Pages: pages,
 	}
-	templates[adminPage].ExecuteTemplate(w, "base", data)
+	if err := templates[adminPage].ExecuteTemplate(w, "base", data); err != nil {
+		http.Redirect(w, r, "/500", http.StatusInternalServerError)
+	}
 }
 
 func (a *AdminService) showAddPostPage(w http.ResponseWriter, r *http.Request) {
@@ -102,8 +107,11 @@ func (a *AdminService) addPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rowsAdded > 0 {
-		w.WriteHeader(http.StatusOK)
+		// Will update this to redirect to a 'successfuly updated page'
+		http.Redirect(w, r, "/admin/", http.StatusFound)
+		return
 	}
+	http.Redirect(w, r, "/genericErrorMessage", http.StatusFound)
 }
 
 func (a *AdminService) updatePost(w http.ResponseWriter, r *http.Request) {
@@ -119,4 +127,5 @@ func (a *AdminService) updatePost(w http.ResponseWriter, r *http.Request) {
 		// Will update this to redirect to a 'successfuly updated page'
 		http.Redirect(w, r, "/admin/", http.StatusFound)
 	}
+	http.Redirect(w, r, "/genericErrorMessage", http.StatusFound)
 }

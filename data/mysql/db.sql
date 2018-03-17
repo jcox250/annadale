@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: localhost (MySQL 5.7.21)
-# Database: techtest
-# Generation Time: 2018-02-09 16:04:43 +0000
+# Host: localhost (MySQL 5.7.19)
+# Database: godale
+# Generation Time: 2018-03-13 19:16:56 +0000
 # ************************************************************
 
 
@@ -20,79 +20,141 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table person
+# Dump of table post
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `person`;
+DROP TABLE IF EXISTS `post`;
 
-CREATE TABLE `person` (
-  `person_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `person_name` varchar(150) DEFAULT NULL,
-  `person_age` int(11) DEFAULT NULL,
-  `person_email` varchar(250) DEFAULT NULL,
-  `person_balance` int(11) DEFAULT NULL,
-  `person_address` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`person_id`)
+CREATE TABLE `post` (
+  `post_id` varchar(150) NOT NULL DEFAULT '',
+  `post_title` varchar(250) DEFAULT NULL,
+  `post_content` blob,
+  `post_added_by` varchar(150) DEFAULT NULL,
+  `post_added_date` datetime DEFAULT NULL,
+  `post_updated_by` varchar(150) DEFAULT NULL,
+  `post_updated_date` datetime DEFAULT NULL,
+  `post_archive` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `person` WRITE;
-/*!40000 ALTER TABLE `person` DISABLE KEYS */;
-
-INSERT INTO `person` (`person_id`, `person_name`, `person_age`, `person_email`, `person_balance`, `person_address`)
-VALUES
-	(1,'James',23,'jamescox250@gmailc.om',2,'10 Belfast Road'),
-	(2,'Andrew',24,'andrew@gmail.com',5,'5 Larne Road'),
-	(3,'Alan',24,'alan@gmail.com',8,'8 Balamoney Road'),
-	(4,'Peter',24,'Peter@gmail.com',8,'8 Blue Road');
-
-/*!40000 ALTER TABLE `person` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 
 --
--- Dumping routines (PROCEDURE) for database 'techtest'
+-- Dumping routines (PROCEDURE) for database 'godale'
 --
 DELIMITER ;;
 
-# Dump of PROCEDURE spPersonAddPerson
+# Dump of PROCEDURE spPostAdd
 # ------------------------------------------------------------
 
-/*!50003 DROP PROCEDURE IF EXISTS `spPersonAddPerson` */;;
+/*!50003 DROP PROCEDURE IF EXISTS `spPostAdd` */;;
 /*!50003 SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPersonAddPerson`(id int, pname varchar(50), age int, email varchar(250), balance int, address varchar(50))
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPostAdd`(
+	IN p_id varchar(150),
+	IN p_title varchar(250),
+	IN p_content blob,
+	IN p_added_by varchar(150),
+	IN p_added_date datetime,
+	IN p_updated_by varchar(150),
+	IN p_updated_date datetime,
+	IN p_archive tinyint
+)
 BEGIN
    
-	insert into person (
-		person_id,
-		person_name,
-		person_age,
-		person_email,
-		person_balance,
-		person_address
-	) value (
-		id,
-		pname,
-		age,
-		email,
-		balance,
-		address
-	);
+   INSERT INTO Post(
+		post_id,	
+		post_title,
+		post_content,
+		post_added_by,
+		post_added_date,
+		post_updated_by,
+		post_updated_date,
+		post_archive
+   )
+    VALUES (
+    	p_id,
+    	P_title,
+    	p_content,
+    	p_added_by,
+    	p_added_date,
+    	p_updated_by,
+    	p_updated_date,
+    	p_archive
+    );
+  	
  	
- END */;;
+   END */;;
 
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;;
-# Dump of PROCEDURE spPersonGetAll
+# Dump of PROCEDURE spPostArchive
 # ------------------------------------------------------------
 
-/*!50003 DROP PROCEDURE IF EXISTS `spPersonGetAll` */;;
+/*!50003 DROP PROCEDURE IF EXISTS `spPostArchive` */;;
 /*!50003 SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPersonGetAll`()
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPostArchive`(
+	IN p_id varchar(150)
+)
 BEGIN
    
-	select * from person;
+    UPDATE Post
+    SET
+    post_archive = 1
+    
+    WHERE
+    post_id = p_id;
  	
- END */;;
+ 	
+   END */;;
+
+/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;;
+# Dump of PROCEDURE spPostUnArchive
+# ------------------------------------------------------------
+
+/*!50003 DROP PROCEDURE IF EXISTS `spPostUnArchive` */;;
+/*!50003 SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"*/;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPostUnArchive`(
+	IN p_id varchar(150)
+)
+BEGIN
+   
+    UPDATE Post
+    SET
+    post_archive = 0
+    
+    WHERE
+    post_id = p_id;
+ 	
+ 	
+   END */;;
+
+/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;;
+# Dump of PROCEDURE spPostUpdate
+# ------------------------------------------------------------
+
+/*!50003 DROP PROCEDURE IF EXISTS `spPostUpdate` */;;
+/*!50003 SET SESSION SQL_MODE="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"*/;;
+/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `spPostUpdate`(
+	IN p_id varchar(150),
+	IN p_title varchar(250),
+	IN p_content blob,
+	IN p_updated_by varchar(150),
+	IN p_updated_date datetime
+)
+BEGIN
+   
+    UPDATE Post
+    SET
+    post_title = p_title,
+    post_content = p_content,
+    post_updated_by = p_updated_by,
+    post_updated_date = p_updated_date
+    
+    WHERE
+    post_id = p_id;
+ 	
+ 	
+   END */;;
 
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;;
 DELIMITER ;

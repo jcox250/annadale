@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/jcox250/annadale/adapters/repository"
 	"github.com/jcox250/annadale/adapters/service"
@@ -13,9 +12,13 @@ import (
 	"github.com/jcox250/annadale/infrastructure"
 )
 
-var DB_TYPE = os.Getenv("DB_TYPE")
-var DB_URL = os.Getenv("DATABASE_URL")
-var PORT = os.Getenv("PORT")
+// var DB_TYPE = os.Getenv("DB_TYPE")
+// var DB_URL = os.Getenv("DATABASE_URL")
+// var PORT = os.Getenv("PORT")
+
+var PORT = ":5000"
+var DB_TYPE = "mysql"
+var DB_URL = "root:root@(localhost:3306)/godale"
 
 func main() {
 	// Enable line numbers for logging

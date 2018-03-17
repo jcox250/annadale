@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"html/template"
+	"io"
 )
 
 const (
@@ -24,13 +25,37 @@ const (
 	notFoundPage
 )
 
-var templates = map[int]*template.Template{
-	postPage:     template.Must(generateTemplate(baseTmpl, postTmpl)),
-	homePage:     template.Must(generateTemplate(baseTmpl, homeTmpl)),
-	adminPage:    template.Must(generateTemplate(baseTmpl, adminTmpl)),
-	loginPage:    template.Must(generateTemplate(baseTmpl, loginTmpl)),
-	editPostPage: template.Must(generateTemplate(baseTmpl, editPostTmpl)),
-	notFoundPage: template.Must(generateTemplate(baseTmpl, notFoundTmpl)),
+type Base struct {
+	BaseData interface{}
+	PageData interface{}
+}
+
+type BaseTemplate struct {
+	Template *template.Template
+	Data     Base
+}
+
+func newBaseTemplate(tmpls ...string) BaseTemplate {
+	tmpls = append(tmpls, baseTmpl)
+	b := BaseTemplate{
+		Template: template.Must(generateTemplate(tmpls...)),
+		Data:     Base{BaseData: "hello world"},
+	}
+	return b
+}
+
+func (b BaseTemplate) ExecuteTemplate(wr io.Writer, name string, data interface{}) error {
+	b.Data.PageData = data
+	return b.Template.ExecuteTemplate(wr, name, b.Data)
+}
+
+var templates = map[int]BaseTemplate{
+	postPage:     newBaseTemplate(postTmpl),
+	homePage:     newBaseTemplate(homeTmpl),
+	adminPage:    newBaseTemplate(adminTmpl),
+	loginPage:    newBaseTemplate(loginTmpl),
+	editPostPage: newBaseTemplate(editPostTmpl),
+	notFoundPage: newBaseTemplate(notFoundTmpl),
 }
 
 func generateTemplate(tmpls ...string) (*template.Template, error) {
