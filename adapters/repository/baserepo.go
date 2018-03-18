@@ -10,7 +10,7 @@ func NewBaseRepo(dbHandler DBHandler) *BaseRepo {
 	}
 }
 
-func (b *BaseRepo) GetLatestResults() ([]string, error) {
+func (b *BaseRepo) GetResults() ([]string, error) {
 	result := ""
 	results := []string{}
 
@@ -28,5 +28,36 @@ func (b *BaseRepo) GetLatestResults() ([]string, error) {
 		}
 		results = append(results, result)
 	}
-	return results, nil
+	return []string{
+		"1s - Instonians",
+		"2s - Three Rock",
+		"3s - North Down",
+		"4s - Civil Service",
+	}, nil
+}
+
+func (b *BaseRepo) GetFixtures() ([]string, error) {
+	fixture := ""
+	fixtures := []string{}
+
+	rows, err := b.dbHandler.Query("call spBaseGetFixtures()")
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		err := rows.Scan(
+			&fixture,
+		)
+		if err != nil {
+			return nil, err
+		}
+		fixtures = append(fixtures, fixture)
+	}
+	return []string{
+		"1s - Banbridge",
+		"2s - Antrim",
+		"3s - Raphoe",
+		"4s - Bangor",
+	}, nil
 }
